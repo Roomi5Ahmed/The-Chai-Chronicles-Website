@@ -7,6 +7,18 @@ import { compare } from 'bcryptjs';
 import { JWT } from 'next-auth/jwt';
 import { Session, User } from 'next-auth';
 
+// Extend the Session type to include user.id
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+  }
+}
+
 declare global {
   var prisma: PrismaClient | undefined;
 }
@@ -63,7 +75,7 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }: { session: Session; token: JWT }) {
       if (token && session?.user) {
-        session.user.id = token.id;
+        session.user.id = String(token.id);
       }
       return session;
     },
