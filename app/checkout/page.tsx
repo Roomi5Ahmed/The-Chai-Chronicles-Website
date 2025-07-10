@@ -21,11 +21,11 @@ export default function CheckoutPage() {
   const shipping = 50; // Placeholder shipping cost
   const total = subtotal + shipping;
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShippingInfo({ ...shippingInfo, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // In a real application, you would integrate with a payment gateway here
     alert(`Order submitted!\n      Name: ${shippingInfo.name}\n      Address: ${shippingInfo.address}\n      Email: ${shippingInfo.email}\n      Phone: ${shippingInfo.phone}\n      Total: ₹${total.toFixed(2)}`);

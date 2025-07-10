@@ -37,8 +37,12 @@ export default function ContactPage() {
       } else {
         setStatus(`Failed to send message: ${result.message || 'Unknown error'}`);
       }
-    } catch (error: any) {
-      setStatus(`Error sending message: ${error.message}`);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setStatus(`Error sending message: ${error.message}`);
+      } else {
+        setStatus('Error sending message: An unknown error occurred.');
+      }
     }
   };
 

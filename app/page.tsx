@@ -116,7 +116,7 @@ export default function Home() {
         <div className="hero-overlay"></div> {/* Semi-transparent overlay */}
         <div className="hero-content">
           <div className="hero-text">
-            <h1 className="hero-tagline">A Journey Through India's Chai Rituals</h1>
+            <h1 className="hero-tagline">A Journey Through India&#39;s Chai Rituals</h1>
           </div>
           <div className="hero-image-container">
             <img src="/kulhad.png" alt="Kulhad with Steam" className="kulhad-image" />
@@ -153,7 +153,7 @@ export default function Home() {
         <div className="container">
           <h2 className="section-title">Chai on the Indian Railways: A Journey Through Time</h2>
           <p>
-            From humble beginnings to an indispensable part of the Indian Railways experience, discover the captivating story of chai's evolution on the tracks.
+            From humble beginnings to an indispensable part of the Indian Railways experience, discover the captivating story of chai&#39;s evolution on the tracks.
           </p>
           {/* Placeholder for timeline element */}
           <div className="railway-timeline">

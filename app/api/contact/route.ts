@@ -32,9 +32,10 @@ export async function POST(request: Request) {
         'Content-Type': 'application/json',
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error saving contact message:', error);
-    return new Response(JSON.stringify({ message: 'Failed to send message', error: error.message }), {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return new Response(JSON.stringify({ message: 'Failed to send message', error: errorMessage }), {
       status: 500,
       headers: {
         'Content-Type': 'application/json',

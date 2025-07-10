@@ -1,5 +1,6 @@
 // c:\WebDev\Claude-Code\tcc-void\app\auth\signin\page.tsx
 "use client";
+import React from 'react';
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';

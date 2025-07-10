@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react'; // Import useState and useEffect
 import { useWishlist } from '../WishlistContext';
 import { products } from '../shop/product-data';
-import Link from 'next/link';
 
 export default function WishlistPage() {
   const { wishlist, removeFromWishlist } = useWishlist();

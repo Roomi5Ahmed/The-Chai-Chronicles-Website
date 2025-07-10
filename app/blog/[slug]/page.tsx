@@ -3,10 +3,9 @@ import React from 'react';
 import { blogPosts, BlogPost } from '../blog-data';
 import { useParams } from 'next/navigation';
 
-interface Params { slug: string }
 
 export default function BlogPostPage() {
-  const params = useParams<Params>();
+  const params = useParams();
   const slug = params.slug || '';
 
   const post: BlogPost | undefined = blogPosts.find((post) => post.slug === slug);

@@ -1,5 +1,6 @@
 // c:\WebDev\Claude-Code\tcc-void\app\auth\signup\page.tsx
 "use client";
+import React from 'react';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';

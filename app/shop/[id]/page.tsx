@@ -5,11 +5,11 @@ import { useParams } from 'next/navigation';
 import { useCart } from '../../CartContext';
 import { useWishlist } from '../../WishlistContext';
 
-interface Params { id: string }
 
 export default function ProductPage() {
-  const params = useParams<Params>();
-  const productId = parseInt(params.id || '');
+  const params = useParams();
+  const idParam = Array.isArray(params.id) ? params.id[0] : params.id;
+  const productId = parseInt(idParam || '');
 
   const { addToCart } = useCart();
   const { addToWishlist } = useWishlist();
