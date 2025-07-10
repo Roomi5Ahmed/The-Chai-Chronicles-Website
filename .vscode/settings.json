@@ -1,0 +1,9 @@
+{
+  "eslint.validate": ["javascript", "typescript"],
+  "files.exclude": {
+    "**/app/generated/**": true
+  },
+  "search.exclude": {
+    "**/app/generated/**": true
+  }
+}

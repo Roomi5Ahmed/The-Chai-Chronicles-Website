@@ -1,0 +1,3 @@
+# Ignore all Prisma-generated files
+app/generated/
+prisma/generated/
