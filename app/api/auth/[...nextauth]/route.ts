@@ -1,14 +1,14 @@
-/* eslint-disable */
-import React from 'react';
-import NextAuth, { AuthOptions } from 'next-auth';
+// app/api/auth/[...nextauth]/route.ts
+
+import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compare } from 'bcryptjs';
-import { JWT } from 'next-auth/jwt';
-import { Session, User } from 'next-auth';
+import type { NextAuthOptions, Session, User } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
 
-// Extend the Session type to include user.id
+// Extend session to include user.id
 declare module 'next-auth' {
   interface Session {
     user: {
@@ -20,17 +20,15 @@ declare module 'next-auth' {
   }
 }
 
+// Avoid multiple PrismaClient instances in dev
 declare global {
   var prisma: PrismaClient | undefined;
 }
 
 const prisma = global.prisma || new PrismaClient();
+if (process.env.NODE_ENV !== 'production') global.prisma = prisma;
 
-if (process.env.NODE_ENV !== 'production') {
-  global.prisma = prisma;
-}
-
-export const authOptions: AuthOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
@@ -40,27 +38,23 @@ export const authOptions: AuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) {
-          return null;
-        }
+        if (!credentials?.email || !credentials.password) return null;
 
         const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
+          where: { email: credentials.email },
         });
 
-        if (!user || !user.password) {
-          return null;
-        }
+        if (!user || !user.password) return null;
 
-        const isPasswordValid = await compare(credentials.password, user.password);
+        const isValid = await compare(credentials.password, user.password);
+        if (!isValid) return null;
 
-        if (isPasswordValid) {
-          return { id: user.id, name: user.name ?? null, email: user.email ?? null, image: user.image ?? null };
-        } else {
-          return null;
-        }
+        return {
+          id: user.id,
+          name: user.name ?? null,
+          email: user.email ?? null,
+          image: user.image ?? null,
+        };
       },
     }),
   ],
@@ -68,14 +62,14 @@ export const authOptions: AuthOptions = {
     strategy: 'jwt',
   },
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user: User }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.id = user.id;
       }
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT }) {
-      if (token && session?.user) {
+      if (session.user && token?.id) {
         session.user.id = String(token.id);
       }
       return session;
@@ -83,7 +77,6 @@ export const authOptions: AuthOptions = {
   },
 };
 
-// ✅ Correct export of NextAuth handler
+// ✅ Correct NextAuth export for App Router (GET/POST handlers)
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };
