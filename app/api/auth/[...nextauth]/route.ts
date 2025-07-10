@@ -1,4 +1,5 @@
 /* eslint-disable */
+import React from 'react';
 import NextAuth, { AuthOptions } from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
