@@ -1,3 +1,6 @@
 # Ignore all Prisma-generated files
 app/generated/
 prisma/generated/
+**/generated/**
+**/.prisma/**
+**/prisma/generated/**
